@@ -22,35 +22,35 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
-function App() {
-  // user auth 
+// APP
+
+export function App() {
+  // user auth
   const [user] = useAuthState(auth);
 
   return (
     <div className="App">
-      <header>
-
-      </header>
-      <section>
-        {user ? <ChatRoom /> : <SignIn />}
-      </section>
+      <header></header>
+      <section>{user ? <ChatRoom /> : <SignIn />}</section>
     </div>
   );
 }
 
+// sign in with Google auth:
 function SignIn() {
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
-  }
-
+  };
+  return <button onClick={signInWithGoogle}>Sign In with Google</button>;
+}
+// sign out if current user exists:
+function SignOut() {
   return (
-    <button onClick={signInWithGoogle}>Sign In with Google</button>
-  )
+    auth.currentUser && <button onClick={() => auth.signOut()}>Sign Out</button>
+  );
 }
 
-function ChatRoom() {
+function ChatRoom() {}
 
-}
-
-export default App;
+// export default App;
