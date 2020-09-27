@@ -34,7 +34,7 @@ export const App = () => {
   return (
     <div className="App">
       <header>
-        <h2>the best chat</h2>
+        <h2>Chats</h2>
         <SignOut />
       </header>
 
@@ -63,7 +63,7 @@ function SignIn() {
 // sign out if current user exists:
 function SignOut() {
   return auth.currentUser && (
-    <button className="sign-out" onClick={() => auth.signOut()}>Sign Out</button>
+    <button className="ui inverted red button" onClick={() => auth.signOut()}>Sign Out</button>
   );
 }
 
@@ -104,7 +104,7 @@ function ChatRoom() {
 
     </main>
 
-    <form onSubmit={sendMessage}>
+    <form  onSubmit={sendMessage}>
 
       <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="..." />
 
@@ -121,7 +121,7 @@ function ChatMessage(props) {
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return (
-    <div className={`message ${messageClass}`}>
+    <div className={`message ${messageClass} `}>
       <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'}  alt="photoURL"/>
       <p>{text}</p>
     </div>
