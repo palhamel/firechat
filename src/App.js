@@ -23,21 +23,17 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 // const analytics = firebase.analytics();
-// console.log(analytics);
-
 
 // APP
 export const App = () => {
   // user auth
   const [user] = useAuthState(auth);
-
   return (
     <div className="App">
       <header>
-        <h2>Chats</h2>
+        <h2>Chat app with Firestore and React</h2>
         <SignOut />
       </header>
-
       <section>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
@@ -56,7 +52,6 @@ function SignIn() {
       <button className="sign-in" onClick={signInWithGoogle}>Sign In with your Google account</button>;
       <p>Write kind words</p>
     </div>
-
   )
 }
 
@@ -73,17 +68,13 @@ function ChatRoom() {
   const messagesRef = firestore.collection('messages');
   // query items in collection:
   const query = messagesRef.orderBy('createdAt').limit(25);
-  // console.log('query sent:', query);
   // check collection for new data:
   const [messages] = useCollectionData(query, { idField: 'id' });
-
   const [formValue, setFormValue] = useState('');
-
   // event handler - listen to change - create new document in firestore:
   const sendMessage = async(e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
-
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -93,26 +84,17 @@ function ChatRoom() {
     setFormValue('');
     dummy.current.scrollIntoView({ behaviour: 'smooth'});
   }
-  // console.log('messages in db:', messages);
 
   return (<>
     <main>
-
       {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-
       <span ref={dummy}></span>
-
     </main>
-
     <form  onSubmit={sendMessage}>
-
       <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="..." />
-
       <button type="submit" disabled={!formValue}>Send</button>
-
     </form>
   </>)
-
 }
 
 function ChatMessage(props) {
@@ -127,7 +109,3 @@ function ChatMessage(props) {
     </div>
   )
 }
-
-
-
-// export default App;
